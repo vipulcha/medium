@@ -72,6 +72,8 @@ blogRouter.post('/i', async (c) => {
   
     const body = await c.req.json();
 		const authorId = c.get('userId');
+
+	try{
      const post= await prisma.post.create({
             data:{
                 title:body.title,
@@ -83,6 +85,10 @@ blogRouter.post('/i', async (c) => {
 	return c.json({
 		id: post.id,
 	});
+}catch(e){
+	c.status(404);
+	c.json({message:"cannot post because of some exception"});
+}
 })
 
 blogRouter.put('/i', async (c) => {
